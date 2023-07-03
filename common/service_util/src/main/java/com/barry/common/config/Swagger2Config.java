@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * Swagger2配置信息
  */
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 @EnableSwagger2
 public class Swagger2Config {
 
@@ -53,7 +53,7 @@ public class Swagger2Config {
                 .title("网站-API文档")
                 .description("本文档描述了网站微服务接口定义")
                 .version("1.0")
-                .contact(new Contact("barry", "http://atguigu.com", "210836394@qq.com"))
+//                .contact(new Contact("barry", "http://atguigu.com", "210836394@qq.com"))
                 .build();
     }
 
@@ -63,7 +63,7 @@ public class Swagger2Config {
                 .title("后台管理系统-API文档")
                 .description("本文档描述了后台管理系统微服务接口定义")
                 .version("1.0")
-                .contact(new Contact("barry", "http://atguigu.com", "210836394@qq.com"))
+//                .contact(new Contact("barry", "http://atguigu.com", "210836394@qq.com"))
                 .build();
     }
 }
