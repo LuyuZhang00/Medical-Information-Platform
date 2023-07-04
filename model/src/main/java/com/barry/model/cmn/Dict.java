@@ -62,7 +62,7 @@ public class Dict {
     private String dictCode;
 
     @ApiModelProperty(value = "是否包含子节点")
-    @TableField(exist = false)
-    private boolean hasChildren;
+    @TableField(exist = false)    // 该字段不是数据库字段，但是在实体类中需要使用，所以需要加上该注解
+    private boolean hasChildren;   // 是否包含子节点
 
 }
