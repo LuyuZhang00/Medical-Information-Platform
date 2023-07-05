@@ -2,6 +2,7 @@ package com.barry.hosp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.barry.model.hosp.Hospital;
+import com.barry.vo.hosp.HospitalQueryVo;
 
 import java.util.Map;
 
@@ -17,4 +18,6 @@ public interface HospitalService {
     String getSignKey(String hoscode);
 
     Object getByHoscode(String hoscode);
+
+    Object selectPage(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo);
 }
