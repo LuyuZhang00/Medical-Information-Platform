@@ -29,6 +29,7 @@ public class DictController {
 
     /**
      * 导入
+     *
      * @param id
      * @return
      */
@@ -41,14 +42,26 @@ public class DictController {
 
     /**
      * 根据数据id查询子数据列表
+     *
      * @param id
      * @return
      */
-    @ApiOperation(value="导出")
+    @ApiOperation(value = "导出")
     @GetMapping(value = "/exportData")
     public void exportData(HttpServletResponse response) {
         dictService.exportData(response);
     }
+
+    //根据dictCode获取下级节点
+    @ApiOperation(value = "根据 dictCode 获取下级节点")
+    @GetMapping(value = "/findByDictCode/{dictCode}")
+    public Result<List<Dict>> findByDictCode(
+            @ApiParam(name = "dictCode", value = "节点编码", required = true)
+            @PathVariable String dictCode) {
+        List<Dict> list = dictService.findByDictCode(dictCode);
+        return Result.ok(list);
+    }
+
 
     //根据数据 id 查询子数据列表
     @ApiOperation(value = "根据数据 id 查询子数据列表")
@@ -67,6 +80,7 @@ public class DictController {
             @PathVariable("value") String value) {
         return dictService.getNameByParentDictCodeAndValue(parentDictCode, value);
     }
+
     @ApiOperation(value = "获取数据字典名称")
     @ApiImplicitParam(name = "value", value = "值", required = true, dataType =
             "Long", paramType = "path")
