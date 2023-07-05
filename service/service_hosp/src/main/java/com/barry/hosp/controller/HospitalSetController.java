@@ -23,7 +23,7 @@ import java.util.Random;
  * @Author : Luyu Zhang
  * @create 2023-07-03 9:32
  */
-@Api(tags = "医院设置管理")
+@Api(tags = "医院设置管理接口")
 @RestController
 @RequestMapping("/admin/hosp/hospitalSet")
 @CrossOrigin
