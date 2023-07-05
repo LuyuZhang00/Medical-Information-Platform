@@ -8,4 +8,5 @@ import com.barry.model.hosp.HospitalSet;
  * @create 2023-07-03 9:25
  */
 public interface HospitalSetService extends IService<HospitalSet> {
+    String getSignKey(String hoscode);
 }

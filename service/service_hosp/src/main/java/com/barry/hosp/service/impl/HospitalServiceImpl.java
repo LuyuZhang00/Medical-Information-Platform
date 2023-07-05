@@ -3,6 +3,7 @@ package com.barry.hosp.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.barry.hosp.mapper.HospitalSetMapper;
 import com.barry.hosp.repository.HospitalRepository;
 import com.barry.hosp.service.HospitalService;
 import com.barry.model.hosp.Hospital;
@@ -22,6 +23,11 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Autowired
     private HospitalRepository hospitalRepository;
+
+
+    @Autowired
+    private HospitalSetMapper baseMapper;
+
 
     /**
      * 上传医院
