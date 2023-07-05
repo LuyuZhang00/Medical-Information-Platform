@@ -27,4 +27,7 @@ spring:
           matching-strategy: ant_path_matcher
 ```
 
-
+3.
+Nacos启动异常：
+（1）查询端口是否开放，是否有其他程序占用。windows下cmd输入```netstat -ano | findstr :8848```查看端口占用情况。
+（2）使用  console网址登录 ![img.png](imgs/img.png)
