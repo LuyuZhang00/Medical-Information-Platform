@@ -21,6 +21,7 @@
 		<module>model</module>
 		<module>service</module>
         <module>service-client</module>
+        <module>server-gateway</module>
     </modules>
 	<properties>
 		<java.version>1.8</java.version>
