@@ -3,8 +3,10 @@ package com.barry.hosp.service;
 
 import com.barry.model.hosp.Department;
 import com.barry.vo.hosp.DepartmentQueryVo;
+import com.barry.vo.hosp.DepartmentVo;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,4 +23,6 @@ public interface DepartmentService {
 
     //删除科室接口
     void remove(String hoscode, String depcode);
+
+    List<DepartmentVo> findDeptTree(String hoscode);
 }
