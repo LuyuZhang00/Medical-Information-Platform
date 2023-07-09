@@ -37,4 +37,6 @@ public interface HospitalService {
 //    Page<Hospital> selectHospPage(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo);
 
     List findByHosname(String hosname);
+
+    Map item(String hoscode);
 }

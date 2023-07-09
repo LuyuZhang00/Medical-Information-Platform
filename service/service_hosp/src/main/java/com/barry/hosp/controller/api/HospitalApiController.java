@@ -1,6 +1,7 @@
 package com.barry.hosp.controller.api;
 
 import com.barry.common.result.Result;
+import com.barry.hosp.service.DepartmentService;
 import com.barry.hosp.service.HospitalService;
 import com.barry.model.hosp.Hospital;
 import com.barry.vo.hosp.HospitalQueryVo;
@@ -18,12 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @Author : Luyu Zhang
  * @create 2023-07-08 22:46
  */
-@Api(tags = "医院管理接口")
+@Api(tags = "前端医院管理接口")
 @RestController
 @RequestMapping("/api/hosp/hospital")
 public class HospitalApiController {
     @Autowired
     private HospitalService hospitalService;
+
+    @Autowired
+    private DepartmentService departmentService;
+
     @ApiOperation(value = "查询医院列表")
     @GetMapping("{page}/{limit}")
     public Result index(
@@ -32,7 +37,7 @@ public class HospitalApiController {
             HospitalQueryVo hospitalQueryVo) {
         //显示上线的医院
         //hospitalQueryVo.setStatus(1);
-        Page<Hospital> pageModel = hospitalService.selectPage(page, limit,hospitalQueryVo);
+        Page<Hospital> pageModel = hospitalService.selectPage(page, limit, hospitalQueryVo);
         return Result.ok(pageModel);
     }
 
@@ -43,4 +48,22 @@ public class HospitalApiController {
             @PathVariable String hosname) {
         return Result.ok(hospitalService.findByHosname(hosname));
     }
+
+    @ApiOperation(value = "根据医院编号获取科室列表")
+    @GetMapping("department/{hoscode}")
+    public Result index(
+            @ApiParam(name = "hoscode", value = "医院 code", required = true)
+            @PathVariable String hoscode) {
+        return Result.ok(departmentService.findDeptTree(hoscode));
+    }
+
+    @ApiOperation(value = "医院预约挂号详情")
+    @GetMapping("{hoscode}")
+    public Result item(
+            @ApiParam(name = "hoscode", value = "医院 code", required = true)
+            @PathVariable String hoscode) {
+        return Result.ok(hospitalService.item(hoscode));
+    }
+
+
 }
