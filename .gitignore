@@ -12,6 +12,6 @@ out/
 *.iml
 *.ipr
 
-*.properties
+**/application.properties
 
 
