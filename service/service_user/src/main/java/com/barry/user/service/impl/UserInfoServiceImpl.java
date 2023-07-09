@@ -9,6 +9,8 @@ import com.barry.user.mapper.UserInfoMapper;
 import com.barry.model.user.UserInfo;
 import com.barry.user.service.UserInfoService;
 import com.barry.vo.user.LoginVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,16 +23,23 @@ import java.util.Map;
  */
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {
+    private RedisTemplate<String,String> redisTemplate;
+
     @Override
     public Map<String, Object> login(LoginVo loginVo) {
         String phone = loginVo.getPhone();
         String code = loginVo.getCode();
-        //校验参数
+        //判断手机号和验证码是否为空
         if(StringUtils.isEmpty(phone) || StringUtils.isEmpty(code)) {
             throw new YyghException(ResultCodeEnum.PARAM_ERROR);
         }
-        //TODO 校验校验验证码
-        //手机号已被使用
+        //校验校验验证码
+        String mobleCode = redisTemplate.opsForValue().get(phone);
+        if(!code.equals(mobleCode)) {
+            throw new YyghException(ResultCodeEnum.CODE_ERROR);
+        }
+
+        //判断是否第一次登录，根据手机号查询数据库，如果不存在相同手机号就是第一次登录
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("phone", phone);
         //获取会员

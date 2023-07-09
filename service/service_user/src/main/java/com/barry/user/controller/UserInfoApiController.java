@@ -24,6 +24,8 @@ public class UserInfoApiController {
     @Autowired
     private UserInfoService userInfoService;
 
+
+
     @ApiOperation(value = "会员登录")
     @PostMapping("login")
     public Result login(@RequestBody LoginVo loginVo, HttpServletRequest request) {
