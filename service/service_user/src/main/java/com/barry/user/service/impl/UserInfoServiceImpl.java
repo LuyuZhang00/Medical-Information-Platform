@@ -70,4 +70,12 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         map.put("token", token);
         return map;
     }
+
+    @Override
+    public UserInfo selectWxInfoOpenId(String openid) {
+        QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("openid",openid);
+        UserInfo userInfo = baseMapper.selectOne(queryWrapper);
+        return userInfo;
+    }
 }

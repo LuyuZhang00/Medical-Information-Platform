@@ -14,4 +14,6 @@ public interface UserInfoService extends IService<UserInfo> {
 
     //用户手机号登录接口
     Map<String, Object> login(LoginVo loginVo);
+
+    UserInfo selectWxInfoOpenId(String openid);
 }
