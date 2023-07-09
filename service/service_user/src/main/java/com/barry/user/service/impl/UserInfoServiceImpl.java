@@ -34,17 +34,17 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             throw new YyghException(ResultCodeEnum.PARAM_ERROR);
         }
         //校验校验验证码
-        String mobleCode = redisTemplate.opsForValue().get(phone);
-        if(!code.equals(mobleCode)) {
+        String mobileCode = redisTemplate.opsForValue().get(phone);
+        if(!code.equals(mobileCode)) {
             throw new YyghException(ResultCodeEnum.CODE_ERROR);
         }
 
         //判断是否第一次登录，根据手机号查询数据库，如果不存在相同手机号就是第一次登录
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("phone", phone);
-        //获取会员
         UserInfo userInfo = baseMapper.selectOne(queryWrapper);
         if(null == userInfo) {
+            //添加到数据库
             userInfo = new UserInfo();
             userInfo.setName("");
             userInfo.setPhone(phone);
