@@ -11,4 +11,4 @@ target/
 *.iws
 *.iml
 *.ipr
-.properties
+*.properties
