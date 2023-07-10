@@ -1,4 +1,4 @@
-package com.barry.user.controller;
+package com.barry.user.api;
 
 import com.barry.common.result.Result;
 import com.barry.common.utils.AuthContextHolder;

@@ -17,6 +17,7 @@
         <module>service_cmn</module>
         <module>service_msm</module>
         <module>service-oss</module>
+        <module>service-order</module>
     </modules>
 
     <dependencies>

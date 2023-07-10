@@ -17,7 +17,7 @@ import java.util.List;
  * @create 2023-07-10 10:47
  */
 @Service
-public class PatientServiceImp extends ServiceImpl<PatientMapper, Patient> implements PatientService {
+public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> implements PatientService {
 
     @Autowired
     private DictFeignClient dictFeignClient;

@@ -27,6 +27,12 @@
             <artifactId>model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis-plus-annotation</artifactId>
+                    <groupId>com.baomidou</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.barry</groupId>
@@ -82,6 +88,10 @@
                     <artifactId>spring-boot-starter</artifactId>
                     <groupId>org.springframework.boot</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>mybatis-plus-core</artifactId>
+                    <groupId>com.baomidou</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -116,6 +126,12 @@
             <groupId>com.barry</groupId>
             <artifactId>service-cmn-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-core</artifactId>
+            <version>3.5.2</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

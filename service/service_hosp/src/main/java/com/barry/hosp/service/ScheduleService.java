@@ -1,6 +1,7 @@
 package com.barry.hosp.service;
 
 import com.barry.model.hosp.Schedule;
+import com.barry.vo.hosp.ScheduleOrderVo;
 import com.barry.vo.hosp.ScheduleQueryVo;
 import org.springframework.data.domain.Page;
 
@@ -27,4 +28,10 @@ public interface ScheduleService {
 
     //根据医院编号 、科室编号和工作日期，查询排班详细信息
     List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate);
+
+    Map<String, Object> getBookingScheduleRule(Integer page, Integer limit, String hoscode, String depcode);
+
+    Schedule getById(String scheduleId);
+
+    ScheduleOrderVo getScheduleOrderVo(String scheduleId);
 }
