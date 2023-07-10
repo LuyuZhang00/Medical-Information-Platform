@@ -3,6 +3,7 @@ package com.barry.user.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.barry.model.user.UserInfo;
 import com.barry.vo.user.LoginVo;
+import com.barry.vo.user.UserAuthVo;
 
 import java.util.Map;
 
@@ -16,4 +17,6 @@ public interface UserInfoService extends IService<UserInfo> {
     Map<String, Object> login(LoginVo loginVo);
 
     UserInfo selectWxInfoOpenId(String openid);
+
+    void userAuth(Long userId, UserAuthVo userAuthVo);
 }

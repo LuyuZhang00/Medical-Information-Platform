@@ -18,6 +18,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.barry</groupId>
+            <artifactId>service-cmn-client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-extension -->
         <dependency>

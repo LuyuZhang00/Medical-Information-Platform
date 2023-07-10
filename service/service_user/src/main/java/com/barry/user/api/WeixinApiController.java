@@ -7,6 +7,7 @@ import com.barry.model.user.UserInfo;
 import com.barry.user.service.UserInfoService;
 import com.barry.user.utils.ConstantWxPropertiesUtil;
 import com.barry.user.utils.HttpClientUtils;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //微信操作的接口
+@Api(tags = "微信登录接口")
 @Controller
 @RequestMapping("/api/ucenter/wx")
 public class WeixinApiController {
