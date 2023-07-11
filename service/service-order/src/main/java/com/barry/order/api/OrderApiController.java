@@ -66,27 +66,6 @@ public class OrderApiController {
         return Result.ok(OrderStatusEnum.getStatusList());
     }
 
-    @ApiOperation(value = "获取订单")
-    @GetMapping("show/{id}")
-    public Result get(
-            @ApiParam(name = "orderId", value = "订单id", required = true)
-            @PathVariable Long id) {
-        return Result.ok(orderService.show(id));
-    }
-
-    @ApiOperation(value = "获取分页列表")
-    @GetMapping("{page}/{limit}")
-    public Result index(
-            @ApiParam(name = "page", value = "当前页码", required = true)
-            @PathVariable Long page,
-            @ApiParam(name = "limit", value = "每页记录数", required = true)
-            @PathVariable Long limit,
-            @ApiParam(name = "orderCountQueryVo", value = "查询对象", required
-                    = false) OrderQueryVo orderQueryVo) {
-        Page<OrderInfo> pageParam = new Page<>(page, limit);
-        IPage<OrderInfo> pageModel = orderService.selectPage(pageParam, orderQueryVo);
-        return Result.ok(pageModel);
-    }
 
     @ApiOperation(value = "取消预约")
     @GetMapping("auth/cancelOrder/{orderId}")
