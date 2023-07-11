@@ -18,6 +18,7 @@
         <module>service_msm</module>
         <module>service-oss</module>
         <module>service-order</module>
+        <module>service-task</module>
     </modules>
 
     <dependencies>
