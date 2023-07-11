@@ -20,9 +20,7 @@ import com.barry.order.service.WeixinService;
 import com.barry.user.client.PatientFeignClient;
 import com.barry.vo.hosp.ScheduleOrderVo;
 import com.barry.vo.msm.MsmVo;
-import com.barry.vo.order.OrderMqVo;
-import com.barry.vo.order.OrderQueryVo;
-import com.barry.vo.order.SignInfoVo;
+import com.barry.vo.order.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +28,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * @Author : Luyu Zhang
@@ -224,33 +224,33 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderInfo> implem
         OrderInfo orderInfo = this.getById(orderId);
         //当前时间大约退号时间，不能取消预约
         DateTime quitTime = new DateTime(orderInfo.getQuitTime());
-        if(quitTime.isBeforeNow()) {
+        if (quitTime.isBeforeNow()) {
             throw new YyghException(ResultCodeEnum.CANCEL_ORDER_NO);
         }
         SignInfoVo signInfoVo =
                 hospitalFeignClient.getSignInfoVo(orderInfo.getHoscode());
-        if(null == signInfoVo) {
+        if (null == signInfoVo) {
             throw new YyghException(ResultCodeEnum.PARAM_ERROR);
         }
         Map<String, Object> reqMap = new HashMap<>();
-        reqMap.put("hoscode",orderInfo.getHoscode());
-        reqMap.put("hosRecordId",orderInfo.getHosRecordId());
+        reqMap.put("hoscode", orderInfo.getHoscode());
+        reqMap.put("hosRecordId", orderInfo.getHosRecordId());
         reqMap.put("timestamp", HttpRequestHelper.getTimestamp());
         String sign = HttpRequestHelper.getSign(reqMap,
                 signInfoVo.getSignKey());
         reqMap.put("sign", sign);
         JSONObject result = HttpRequestHelper.sendRequest(reqMap,
-                signInfoVo.getApiUrl()+"/order/updateCancelStatus");
-        if(result.getInteger("code") != 200) {
+                signInfoVo.getApiUrl() + "/order/updateCancelStatus");
+        if (result.getInteger("code") != 200) {
             throw new YyghException(result.getString("message"),
                     ResultCodeEnum.FAIL.getCode());
         } else {
             //是否支付 退款
-            if(orderInfo.getOrderStatus().intValue() ==
+            if (orderInfo.getOrderStatus().intValue() ==
                     OrderStatusEnum.PAID.getStatus().intValue()) {
-                    //已支付 退款
+                //已支付 退款
                 boolean isRefund = weixinService.refund(orderId);
-                if(!isRefund) {
+                if (!isRefund) {
                     throw new YyghException(ResultCodeEnum.CANCEL_ORDER_FAIL);
                 }
             }
@@ -266,10 +266,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderInfo> implem
             msmVo.setTemplateCode("SMS_194640722");
             String reserveDate = new
                     DateTime(orderInfo.getReserveDate()).toString("yyyy-MM-dd") +
-                    (orderInfo.getReserveTime()==0 ? "上午": "下午");
-            Map<String,Object> param = new HashMap<String,Object>(){{
+                    (orderInfo.getReserveTime() == 0 ? "上午" : "下午");
+            Map<String, Object> param = new HashMap<String, Object>() {{
                 put("title",
-                        orderInfo.getHosname()+"|"+orderInfo.getDepname()+"|"+orderInfo.getTitle());
+                        orderInfo.getHosname() + "|" + orderInfo.getDepname() + "|" + orderInfo.getTitle());
                 put("reserveDate", reserveDate);
                 put("name", orderInfo.getPatientName());
             }};
@@ -279,5 +279,40 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderInfo> implem
                     MqConst.ROUTING_ORDER, orderMqVo);
         }
         return true;
+    }
+
+    @Override
+    public void patientTips() {
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("reserve_date", new DateTime().toString("yyyy-MM-dd"));
+        List<OrderInfo> orderInfoList = baseMapper.selectList(queryWrapper);
+        for (OrderInfo orderInfo : orderInfoList) {
+            //短信提示
+            MsmVo msmVo = new MsmVo();
+            msmVo.setPhone(orderInfo.getPatientPhone());
+            String reserveDate = new DateTime(orderInfo.getReserveDate()).toString("yyyy-MM-dd") + (orderInfo.getReserveTime() == 0 ? "上午" : "下午");
+            Map<String, Object> param = new HashMap<String, Object>() {{
+                put("title", orderInfo.getHosname() + "|" + orderInfo.getDepname() + "|" + orderInfo.getTitle());
+                put("reserveDate", reserveDate);
+                put("name", orderInfo.getPatientName());
+            }};
+            msmVo.setParam(param);
+            rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_MSM,
+                    MqConst.ROUTING_MSM_ITEM, msmVo);
+        }
+
+    }
+
+    @Override
+    public Map<String, Object> getCountMap(OrderCountQueryVo orderCountQueryVo) {
+        Map<String, Object> map = new HashMap<>();
+        List<OrderCountVo> orderCountVoList = baseMapper.selectOrderCount(orderCountQueryVo);
+        //日期列表
+        List<String> dateList =orderCountVoList.stream().map(OrderCountVo::getReserveDate).collect(Collectors.toList());
+        //统计列表
+        List<Integer> countList =orderCountVoList.stream().map(OrderCountVo::getCount).collect(Collectors.toList());
+        map.put("dateList", dateList);
+        map.put("countList", countList);
+        return map;
     }
 }

@@ -7,6 +7,7 @@ import com.barry.common.utils.AuthContextHolder;
 import com.barry.enums.OrderStatusEnum;
 import com.barry.model.order.OrderInfo;
 import com.barry.order.service.OrderService;
+import com.barry.vo.order.OrderCountQueryVo;
 import com.barry.vo.order.OrderQueryVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @Author : Luyu Zhang
@@ -92,5 +94,11 @@ public class OrderApiController {
             @ApiParam(name = "orderId", value = "订单 id", required = true)
             @PathVariable("orderId") Long orderId) {
         return Result.ok(orderService.cancelOrder(orderId));
+    }
+
+    @ApiOperation(value = "获取订单统计数据")
+    @PostMapping("inner/getCountMap")
+    public Map<String, Object> getCountMap(@RequestBody OrderCountQueryVo orderCountQueryVo) {
+        return orderService.getCountMap(orderCountQueryVo);
     }
 }

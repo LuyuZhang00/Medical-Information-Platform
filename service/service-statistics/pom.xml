@@ -9,21 +9,15 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>service-task</artifactId>
-
+    <artifactId>service-statistics</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.barry</groupId>
-            <artifactId>rabbit-util</artifactId>
+            <artifactId>service-order-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.barry</groupId>
-            <artifactId>rabbit-util</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
+
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>

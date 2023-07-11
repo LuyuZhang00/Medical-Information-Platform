@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.barry.model.order.OrderInfo;
+import com.barry.vo.order.OrderCountQueryVo;
 import com.barry.vo.order.OrderQueryVo;
 
 import java.util.Map;
@@ -32,4 +33,9 @@ public interface OrderService extends IService<OrderInfo> {
      * @param orderId
      */
     Boolean cancelOrder(Long orderId);
+
+    //就诊通知
+    void patientTips();
+
+    Map<String, Object> getCountMap(OrderCountQueryVo orderCountQueryVo);
 }
