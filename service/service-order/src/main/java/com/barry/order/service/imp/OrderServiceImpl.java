@@ -136,12 +136,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderInfo> implem
             MsmVo msmVo = new MsmVo();
             msmVo.setPhone(orderInfo.getPatientPhone());
             msmVo.setTemplateCode("SMS_194640721");
-            String reserveDate =
-                    new DateTime(orderInfo.getReserveDate()).toString("yyyy-MM-dd")
-                            + (orderInfo.getReserveTime()==0 ? "上午": "下午");
+            String reserveDate = new DateTime(orderInfo.getReserveDate()).toString("yyyy-MM-dd") + (orderInfo.getReserveTime()==0 ? "上午": "下午");
             Map<String,Object> param = new HashMap<String,Object>(){{
-                put("title",
-                        orderInfo.getHosname()+"|"+orderInfo.getDepname()+"|"+orderInfo.getTitle());
+                put("title", orderInfo.getHosname()+"|"+orderInfo.getDepname()+"|"+orderInfo.getTitle());
                 put("amount", orderInfo.getAmount());
                 put("reserveDate", reserveDate);
                 put("name", orderInfo.getPatientName());
