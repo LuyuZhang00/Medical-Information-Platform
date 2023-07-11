@@ -11,6 +11,7 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.barry.msm.service.MsmService;
 import com.barry.msm.utils.ConstantPropertiesUtils;
+import com.barry.vo.msm.MsmVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,15 @@ public class MsmServiceImpl implements MsmService {
             e.printStackTrace();
         } catch (ClientException e) {
             e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean send(MsmVo msmVo) {
+        if(!StringUtils.isEmpty(msmVo.getPhone())) {
+            String code = (String)msmVo.getParam().get("code");
+            return this.send(msmVo.getPhone(),code);
         }
         return false;
     }

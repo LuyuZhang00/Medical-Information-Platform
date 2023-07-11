@@ -2,6 +2,7 @@ package com.barry.hosp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.barry.model.hosp.HospitalSet;
+import com.barry.vo.order.SignInfoVo;
 
 /**
  * @Author : Luyu Zhang
@@ -9,4 +10,6 @@ import com.barry.model.hosp.HospitalSet;
  */
 public interface HospitalSetService extends IService<HospitalSet> {
     String getSignKey(String hoscode);
+
+    SignInfoVo getSignInfoVo(String hoscode);
 }

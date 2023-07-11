@@ -53,6 +53,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private DepartmentService departmentService;
 
+    @Autowired
+    private BaseMapper baseMapper;
+
     //上传排班接口
     @Override
     public void save(Map<String, Object> paramMap) {
@@ -266,7 +269,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Schedule getById(String id) {
+    public Schedule getScheduleId(String id) {
         Schedule schedule = scheduleRepository.findById(id).get();
         return this.packageSchedule(schedule);
 //        return schedule;
@@ -276,7 +279,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleOrderVo getScheduleOrderVo(String scheduleId) {
         ScheduleOrderVo scheduleOrderVo = new ScheduleOrderVo();
         //排班信息
-        Schedule schedule = baseMapper.selectById(scheduleId);
+        Schedule schedule = (Schedule) baseMapper.selectById(scheduleId);
         if(null == schedule) {
             throw new YyghException(ResultCodeEnum.PARAM_ERROR);
         }
@@ -313,6 +316,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         DateTime stopTime = this.getDateTime(new Date(), bookingRule.getStopTime());
         scheduleOrderVo.setStartTime(startTime.toDate());
         return scheduleOrderVo;
+    }
+
+    //更新排班信息，用于mq
+    @Override
+    public void update(Schedule schedule) {
+        schedule.setUpdateTime(new Date());
+        //主键一致就是更新
+        scheduleRepository.save(schedule);
     }
 
 

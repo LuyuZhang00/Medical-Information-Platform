@@ -3,10 +3,12 @@ package com.barry.hosp.controller.api;
 import com.barry.common.result.Result;
 import com.barry.hosp.service.DepartmentService;
 import com.barry.hosp.service.HospitalService;
+import com.barry.hosp.service.HospitalSetService;
 import com.barry.hosp.service.ScheduleService;
 import com.barry.model.hosp.Hospital;
 import com.barry.vo.hosp.HospitalQueryVo;
 import com.barry.vo.hosp.ScheduleOrderVo;
+import com.barry.vo.order.SignInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,6 +32,9 @@ public class HospitalApiController {
 
     @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    private HospitalSetService hospitalSetService;
 
     @ApiOperation(value = "查询医院列表")
     @GetMapping("{page}/{limit}")
@@ -103,7 +108,7 @@ public class HospitalApiController {
     public Result getSchedule(
             @ApiParam(name = "scheduleId", value = "排班 id", required = true)
             @PathVariable String scheduleId) {
-        return Result.ok(scheduleService.getById(scheduleId));
+        return Result.ok(scheduleService.getScheduleId(scheduleId));
     }
 
     @ApiOperation(value = "根据排班 id 获取预约下单数据")
@@ -112,5 +117,13 @@ public class HospitalApiController {
             @ApiParam(name = "scheduleId", value = "排班 id", required = true)
             @PathVariable("scheduleId") String scheduleId) {
         return scheduleService.getScheduleOrderVo(scheduleId);
+    }
+
+    @ApiOperation(value = "获取医院签名信息")
+    @GetMapping("inner/getSignInfoVo/{hoscode}")
+    public SignInfoVo getSignInfoVo(
+            @ApiParam(name = "hoscode", value = "医院 code", required = true)
+            @PathVariable("hoscode") String hoscode) {
+        return hospitalSetService.getSignInfoVo(hoscode);
     }
 }
