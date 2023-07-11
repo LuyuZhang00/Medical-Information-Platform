@@ -2,15 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.barry.order.mapper.OrderMapper">
-    <select id="selectOrderCount"
-            resultType="com.barry.vo.order.OrderCountVo">
-        select reserve_date as reserveDate, count(reserve_date) as count
-        from order_info
+    <select id="selectOrderCount" resultType="com.barry.vo.order.OrderCountVo">
+        SELECT COUNT(*) AS count ,reserve_date AS reserveDate FROM order_info
         <where>
-            <if test="vo.hosname != null and vo.hosname != ''">
+            <if test="vo.hosname!=null and vo.hosname!=''">
                 and hosname like CONCAT('%',#{vo.hosname},'%')
             </if>
-            <if test="vo.reserveDateBegin != null and vo.reserveDateBegin !=''">
+            <if test="vo.reserveDateBegin != null and vo.reserveDateBegin != ''">
                 and reserve_date >= #{vo.reserveDateBegin}
             </if>
             <if test="vo.reserveDateEnd != null and vo.reserveDateEnd != ''">
@@ -18,7 +16,7 @@
             </if>
             and is_deleted = 0
         </where>
-        group by reserve_date
-        order by reserve_date
+        GROUP BY reserve_date
+        ORDER BY reserve_date
     </select>
 </mapper>

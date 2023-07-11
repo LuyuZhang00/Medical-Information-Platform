@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/admin/statistics")
 public class StatisticsController {
+
     @Autowired
     private OrderFeignClient orderFeignClient;
 
     @ApiOperation(value = "获取订单统计数据")
     @GetMapping("getCountMap")
-    public Result getCountMap(@ApiParam(name = "orderCountQueryVo", value = " 查询对象", required = false) OrderCountQueryVo orderCountQueryVo) {
+    public Result getCountMap(@ApiParam(name = "orderCountQueryVo", value = " 查询对象", required = false)
+                                  OrderCountQueryVo orderCountQueryVo) {
         return Result.ok(orderFeignClient.getCountMap(orderCountQueryVo));
     }
 }
